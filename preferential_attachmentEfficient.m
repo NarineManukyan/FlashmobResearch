@@ -3,6 +3,7 @@ function edges = preferential_attachmentEfficient(n,m, tmax)
 %               m - # edges to attach at every step
 %               tmax   - # number of time steps
 % OUTPUTs: edge list
+% SAMPLE CALL: edges = preferential_attachmentEfficient(1,5, 1000);
 
 vert = 2;
 edges=[1 2; 2 1];  % start with an edge
