@@ -1,51 +1,51 @@
 function edges = preferential_attachmentEfficient(n,m, tmax)
-% INPUTs: n  - # number of nodes to attach at every step
-%               m - # edges to attach at every step
-%               tmax   - # number of time steps
-% OUTPUTs: edge list
-% SAMPLE CALL: edges = preferential_attachmentEfficient(1,5, 1000);
+% Input:       n  -         # number of nodes to attach at every step
+%                  m  -        # edges to attach at every step
+%                  tmax -   # number of time steps
+% Output:  edges -  edge list
+%
+% Example: edges = preferential_attachmentEfficient(1,5, 1000);
 
 vert = 2;
-edges=[1 2; 2 1];  % start with an edge
+edges=[1 2];  % start with an edge
 targets = [1 2]; % list of all targets
 
 for t = 1:tmax
     vert=vert+n;  % add new vertex(es)
     
-    if m>=numel(unique(targets))
+    if m>=vert-n
         for node=1:vert-1
             edges = [edges; vert node];
             targets = [targets node];
         end
-        continue
-    end
-    
-    % add m edges
-    rn = rand(1,1);
-    if rn < m/(m+1)
-        % Randomly sample the vertexies proportional to their indegree without
-        % replacement
-        ct = 1;
-        r = [];
-        targetse = targets;
-        while ct < m
-            re = randsample(targetse,1);
-            if ~sum(r == re)
-                r(ct) = re;
-                ct = ct+1;
-                targetse(targetse == re)=[];
+    else
+        % add m edges
+        rn = rand(1,1);
+        if rn < m/(m+1.5)
+            % Randomly sample the vertexies proportional to their indegree without
+            % replacement
+            ct = 1;
+            r = [];
+            targetse = targets;
+            while ct <= m
+                re = randsample(targetse,1);
+                if ~sum(r == re)
+                    r(ct) = re;
+                    ct = ct+1;
+                    targetse(targetse == re)=[];
+                end
             end
+            
+        else
+            r = randsample(vert,m);
         end
         
-    else
-        r = randsample(vert,m);
+        for node=1:length(r)
+            edges = [edges; vert r(node)];
+            targets = [targets r(node)];
+        end
+        
     end
-    
-    for node=1:length(r)
-        edges = [edges; vert r(node)];
-        targets = [targets: r(node)];
-    end
-    
 end
 
 outDeg = [];
@@ -69,3 +69,9 @@ set(gca,'FontSize',15, 'FontWeight','bold');
 xlabel('In-degree q');
 ylabel('Fraction of vertices with in-degree q');
 title('LogLog plot');
+
+figure
+hist(inDeg(:,2));
+xlabel('Degree');
+ylabel('# of nodes');
+title('histogram');
