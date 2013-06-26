@@ -2,7 +2,7 @@ function edges = preferential_attachmentEfficient(n,m, tmax)
 % Input:       n  -         # number of nodes to attach at every step
 %                  m  -        # edges to attach at every step
 %                  tmax -   # number of time steps
-% Output:  edges -  edge list
+% Output:  edges -   edge list
 %
 % Example: edges = preferential_attachmentEfficient(1,5, 1000);
 
