@@ -1,9 +1,8 @@
 function [NetworkOverTime edges]  = preferential_attachmentEfficient(m, tmax)
-% Input:       m  - # edges to attach at every step
-%             tmax - # number of time steps
-% Output:    NetworkOverTime - Struct that contains the edge list over tmax
-%                                                     steps
-%                  edges - edge list at the end
+% Input:       n  -         # number of nodes to attach at every step
+%                  m  -        # edges to attach at every step
+%                  tmax -   # number of time steps
+% Output:  edges -   edge list
 %
 % Example: edges = preferential_attachmentEfficient(1,5, 1000);
 
@@ -12,9 +11,9 @@ edges=[1 2];  % start with an edge
 targets = [1 2]; % list of all targets
 
 for t = 1:tmax
-    vert=vert+1;  % add new vertex(es)
+    vert=vert+n;  % add new vertex(es)
     
-    if m>=vert-1
+    if m>=vert-n
         for node=1:vert-1
             edges = [edges; vert node];
             targets = [targets node];
